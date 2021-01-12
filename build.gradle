@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+group 'com.tinhvan'
+version '1.0'
+
+//create a single Jar with all dependencies
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'com.tinhvan.photo_album.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    // Send API
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    // Gson để lưu Configuration class
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Add process JSON
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation 'org.json:json:20200518'
+
+    // Giúp bạn xử lý Excel một cách tối ưu
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+
+    // Scaling image
+    implementation 'com.mortennobel:java-image-scaling:0.8.6'
+    implementation 'org.imgscalr:imgscalr-lib:4.2'
+
+    implementation 'commons-io:commons-io:2.6'
+
+}
+
+test {
+    useJUnitPlatform()
+}
